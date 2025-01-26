@@ -1,5 +1,7 @@
 import { defineStore } from "pinia"
 
+export const baseUrl = "https://weblabnode.onrender.com"
+
 export interface Task {
   id: number
   title: string
@@ -14,7 +16,7 @@ export const useTaskStore = defineStore("taskStore", {
   actions: {
     async fetchTasks() {
       try {
-        const response = await fetch("http://localhost:5000/tasks")
+        const response = await fetch(`${baseUrl}/tasks`)
         if (!response.ok) {
           throw new Error("Failed to fetch tasks")
         }
@@ -25,7 +27,7 @@ export const useTaskStore = defineStore("taskStore", {
     },
     async addTask(task: Omit<Task, "id">) {
       try {
-        const response = await fetch("http://localhost:5000/tasks", {
+        const response = await fetch(`${baseUrl}/tasks`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(task),

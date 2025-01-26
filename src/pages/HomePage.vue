@@ -36,6 +36,7 @@
 import { defineComponent, ref, onMounted, computed } from "vue"
 import { useTaskStore } from "../stores/taskStore"
 import TaskCard from "../components/TaskCard.vue"
+import { baseUrl } from "../stores/taskStore"
 
 export default defineComponent({
   components: { TaskCard },
@@ -68,7 +69,7 @@ export default defineComponent({
 
     const deleteTask = async (id: number) => {
       try {
-        const response = await fetch(`http://localhost:5000/tasks/${id}`, {
+        const response = await fetch(`${baseUrl}/tasks/${id}`, {
           method: "DELETE",
         })
 

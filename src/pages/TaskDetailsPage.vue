@@ -23,6 +23,7 @@
 import { defineComponent, ref, onMounted } from "vue"
 import { useRoute } from "vue-router"
 import type { Task } from "../stores/taskStore"
+import { baseUrl } from "../stores/taskStore"
 
 export default defineComponent({
   setup() {
@@ -31,7 +32,7 @@ export default defineComponent({
 
     const fetchTaskDetails = async (id: number) => {
       try {
-        const response = await fetch(`http://localhost:5000/tasks/${id}`)
+        const response = await fetch(`${baseUrl}/tasks/${id}`)
         if (response.ok) {
           task.value = await response.json()
         } else {
@@ -45,7 +46,7 @@ export default defineComponent({
     const toggleCompletion = async () => {
       if (task.value) {
         task.value.completed = !task.value.completed
-        await fetch(`http://localhost:5000/tasks/${task.value.id}`, {
+        await fetch(`${baseUrl}/tasks/${task.value.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(task.value),

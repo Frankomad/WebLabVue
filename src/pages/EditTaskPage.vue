@@ -14,6 +14,7 @@ import { defineComponent, ref, onMounted } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import type { Task } from "../stores/taskStore"
 import TaskForm from "../components/TaskForm.vue"
+import { baseUrl } from "../stores/taskStore"
 
 export default defineComponent({
   components: { TaskForm },
@@ -24,7 +25,7 @@ export default defineComponent({
 
     const fetchTask = async (id: number) => {
       try {
-        const response = await fetch(`http://localhost:5000/tasks/${id}`)
+        const response = await fetch(`${baseUrl}/tasks/${id}`)
         if (!response.ok) throw new Error("Task not found")
         task.value = await response.json()
       } catch (error) {
@@ -35,14 +36,11 @@ export default defineComponent({
 
     const updateTask = async (updatedTask: Task) => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/tasks/${updatedTask.id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedTask),
-          }
-        )
+        const response = await fetch(`${baseUrl}/tasks/${updatedTask.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedTask),
+        })
 
         if (!response.ok) throw new Error("Failed to update task")
 
